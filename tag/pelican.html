@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Fuzion Labs - pelican</title>
+        <link rel="stylesheet" href="../theme/css/main.css" />
+        <link href="kholdfuzion.net/all.atom.xml" type="application/atom+xml" rel="alternate" title="Fuzion Labs Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="../">Fuzion Labs </a></h1>
+                <nav><ul>
+                    <li><a href="../category/articles.html">Articles</a></li>
+                    <li><a href="../category/retro-dev.html">Retro Dev</a></li>
+                    <li><a href="../category/xmage.html">XMage</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="../ipfs-setup-for-pelican.html">ipfs setup for pelican</a></h1>
+<footer class="post-info">
+        <span>Fri 24 February 2017</span>
+<span>| tags: <a href="../tag/ipfs.html">ipfs</a><a href="../tag/general.html">general</a><a href="../tag/pelican.html">pelican</a></span>
+</footer><!-- /.post-info --><p>To enable pelican's makefile to output ipfs add the following to your makefile</p>
+<h1>!makefile</h1>
+<div class="highlight"><pre><span></span><code><span class="n">ipfs</span><span class="o">:</span><span class="w"> </span><span class="n">html</span><span class="w"></span>
+<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">swarm</span><span class="w"> </span><span class="n">peers</span><span class="w"> </span><span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;ipfs daemon must be online to publish&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">exit</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="n">q</span><span class="w"> </span><span class="n">$</span><span class="o">(</span><span class="n">OUTPUTDIR</span><span class="o">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">-</span><span class="n">n1</span><span class="w"> </span><span class="o">&gt;</span><span class="n">versions</span><span class="o">/</span><span class="n">current</span><span class="w"></span>
+<span class="w">    </span><span class="n">cat</span><span class="w"> </span><span class="n">versions</span><span class="sr">/current &gt;&gt;versions/</span><span class="n">history</span><span class="w"></span>
+<span class="w">    </span><span class="err">@</span><span class="n">export</span><span class="w"> </span><span class="n">hash</span><span class="o">=</span><span class="err">`</span><span class="n">cat</span><span class="w"> </span><span class="n">versions</span><span class="sr">/current`; \</span>
+<span class="sr">        echo &quot;&quot;; \</span>
+<span class="sr">        echo &quot;published website:&quot;; \</span>
+<span class="sr">        echo &quot;- http://localhost:8080/ipfs/$$hash&quot;; \</span>
+<span class="sr">        echo &quot;- https://ipfs.io/ipfs/$$hash&quot;; \</span>
+<span class="sr">        echo &quot;&quot;; \</span>
+<span class="sr">        echo &quot;next steps:&quot;; \</span>
+<span class="sr">        echo &quot;- ipfs pin add -r /ipfs/$$hash&quot;; \</span>
+<span class="sr">        echo &quot;- make ipfsio&quot;; \</span>
+<span class="sr">ipfs name publish `cat versions/</span><span class="n">current</span><span class="err">`</span><span class="w"></span>
+</code></pre></div>
+
+<p>Then be sure to add ipfs to your .PHONY section.</p>
+<p>Make sure a directory called versions exists</p>
+<p>You should be able to call <code>make ipfs</code> if ipfs daemon is running locally</p>
+<p>To have traditional dns resolve your site you then need to set your domains A record to an ipfs gateway and your dns txt record to <code>dnslink=/ipns/ipnshash</code></p>
+<p>Also pin your site to multiple ipfs daemons and use something like cachewarmer to decrease initial load on your servers</p>
+<p>To pin use <code>ipfs pin add -r /ipns/QmeMsvVh1yxrMXFyBvoU3QcTdJF2wjkMnteDRk1zkbYRt7</code> (thats my ipns entry if you'd like to help spread the load)</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="../it-lives.html" rel="bookmark"
+                           title="Permalink to It Lives">It Lives</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>Fri 24 February 2017</span>
+<span>| tags: <a href="../tag/ipfs.html">ipfs</a><a href="../tag/general.html">general</a><a href="../tag/pelican.html">pelican</a></span>
+</footer><!-- /.post-info -->                <p>Finally got around to putting up a site here. For those interested I use Pelican with a makefile modded to publish to ipfs and my dns is set to redirect to my ipns entry on an ipfs gateway. </p>
+<p>As a backup this site can be reached via <a href="http://gateway.ipfs.io/ipns/kholdfuzion.net/">ipfs.io gateway …</a></p>
+                <a class="readmore" href="../it-lives.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://github.com/kholdfuzion">Github</a></li>
+                            <li><a href="http://gitlab.com/kholdfuzion">Gitlab</a></li>
+                            <li><a href="http://ipfs.io">ipfs</a></li>
+                            <li><a href="http://www.tradengames.com/store/pc/home.asp">Trade-N-Games</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

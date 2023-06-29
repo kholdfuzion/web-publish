@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Fuzion Labs - btrfs</title>
+        <link rel="stylesheet" href="../theme/css/main.css" />
+        <link href="kholdfuzion.net/all.atom.xml" type="application/atom+xml" rel="alternate" title="Fuzion Labs Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="../">Fuzion Labs </a></h1>
+                <nav><ul>
+                    <li><a href="../category/articles.html">Articles</a></li>
+                    <li><a href="../category/retro-dev.html">Retro Dev</a></li>
+                    <li><a href="../category/xmage.html">XMage</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="../btrfs-false-disk-full-repair.html">btrfs false disk full repair</a></h1>
+<footer class="post-info">
+        <span>Tue 07 March 2017</span>
+<span>| tags: <a href="../tag/btrfs.html">btrfs</a><a href="../tag/general.html">general</a><a href="../tag/troubleshooting.html">troubleshooting</a><a href="../tag/repairs.html">repairs</a><a href="../tag/disk.html">disk</a><a href="../tag/full.html">full</a></span>
+</footer><!-- /.post-info --><p>Recently I had to rebuild my local server due to a double drive failure in a raid 5 configuration. Thankfully everything I really cared about was backed up.</p>
+<p>After recovering everything to a working state on hardware raid 10, btrfs started telling me that I was out of space on device. <code>df -h</code> showed plenty.</p>
+<p>Turns out tools like df lie when using btrfs. they dont take into account the metadata. Thankfully it's btrfs so a fix isn't hard:</p>
+<p>First add a second device, I used an 8gb jumpdrive which lived at /dev/sdf.</p>
+<p><code>sudo btrfs device add /dev/sdf /</code></p>
+<p>Second run a rebalance</p>
+<p><code>sudo btrfs fi balance start -musage=0 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=0 /</code></p>
+<p><code>sudo btrfs fi balance start -musage=1 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=1 /</code></p>
+<p><code>sudo btrfs fi balance start -musage=5 /</code></p>
+<p><code>sudo btrfs fi balance start -musage=10 /</code></p>
+<p><code>sudo btrfs fi balance start -musage=20 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=5 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=10 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=20 /</code></p>
+<p><code>sudo btrfs fi balance start -dusage=55 /</code></p>
+<p><code>sudo btrfs fi balance start -musage=55 /</code> </p>
+<p>When thats done, btrfs will likely complain if you try to remove the extra drive if you're like me and have a hardware raid showing as a single device, as the usb drive is now hosting a mirror of your cleaned metadata. If so, you will have to rebalance the metadata back to a "single drive".</p>
+<p><code>sudo btrfs balance start -mconvert=single /</code></p>
+<p>After that completes, finish up with a simple</p>
+<p><code>sudo btrfs device remove /dev/sdf /</code></p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://github.com/kholdfuzion">Github</a></li>
+                            <li><a href="http://gitlab.com/kholdfuzion">Gitlab</a></li>
+                            <li><a href="http://ipfs.io">ipfs</a></li>
+                            <li><a href="http://www.tradengames.com/store/pc/home.asp">Trade-N-Games</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
