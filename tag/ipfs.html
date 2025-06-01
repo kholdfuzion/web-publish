@@ -47,10 +47,10 @@
 <span>| tags: <a href="../tag/ipfs.html">ipfs</a><a href="../tag/general.html">general</a><a href="../tag/pelican.html">pelican</a></span>
 </footer><!-- /.post-info -->                <p>To enable pelican's makefile to output ipfs add the following to your makefile</p>
 <h1>!makefile</h1>
-<div class="highlight"><pre><span></span><code><span class="n">ipfs</span><span class="o">:</span><span class="w"> </span><span class="n">html</span><span class="w"></span>
-<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">swarm</span><span class="w"> </span><span class="n">peers</span><span class="w"> </span><span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;ipfs daemon must be online to publish&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">exit</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="n">q</span><span class="w"> </span><span class="n">$</span><span class="o">(</span><span class="n">OUTPUTDIR</span><span class="o">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">-</span><span class="n">n1</span><span class="w"> </span><span class="o">&gt;</span><span class="n">versions</span><span class="o">/</span><span class="n">current</span><span class="w"></span>
-<span class="w">    </span><span class="n">cat</span><span class="w"> </span><span class="n">versions</span><span class="sr">/current &gt;&gt;versions/</span><span class="n">history</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">ipfs</span><span class="o">:</span><span class="w"> </span><span class="n">html</span>
+<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">swarm</span><span class="w"> </span><span class="n">peers</span><span class="w"> </span><span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;ipfs daemon must be online to publish&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">exit</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
+<span class="w">    </span><span class="n">ipfs</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="n">q</span><span class="w"> </span><span class="n">$</span><span class="o">(</span><span class="n">OUTPUTDIR</span><span class="o">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">-</span><span class="n">n1</span><span class="w"> </span><span class="o">&gt;</span><span class="n">versions</span><span class="o">/</span><span class="n">current</span>
+<span class="w">    </span><span class="n">cat</span><span class="w"> </span><span class="n">versions</span><span class="sr">/current &gt;&gt;versions/</span><span class="n">history</span>
 <span class="w">    </span><span class="err">@</span><span class="n">export</span><span class="w"> </span><span class="n">hash</span><span class="o">=</span><span class="err">`</span><span class="n">cat</span><span class="w"> </span><span class="n">versions</span><span class="sr">/current …</span></code></pre></div>
                 <a class="readmore" href="../ipfs-setup-for-pelican.html">read more</a>
                 </div><!-- /.entry-content -->
@@ -89,9 +89,11 @@
                 </div><!-- /.entry-content -->
             </article></li>
             </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
+<nav>
+  <ul>
+    <li>Page 1 / 1</li>
+  </ul>
+</nav>
             </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
